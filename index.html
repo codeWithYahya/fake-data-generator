@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <title>Faker</title>
+  </head>
+  <body>
+    <table class="table border table-striped container" id="myTable">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Sex</th>
+          <th>DOB</th>
+          <th>Designation</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </body>
+  <script type="module">
+    import { faker } from "https://cdn.skypack.dev/@faker-js/faker/locale/en_IND";
+    console.log(faker);
+    let user_list = [];
+
+    function fakeUsers() {
+      for (let i = 0; i < 100; i++) {
+        const sex = faker.name.sexType();
+        const firstName = faker.name.firstName(sex);
+        const lastName = faker.name.lastName();
+        const randomEmail = faker.internet.email(firstName, lastName);
+        const dob = faker.date.birthdate();
+        const designation = faker.name.jobTitle();
+
+        // let table = document.getElementsByTagName("tbody")[0];
+        // let row = table.insertRow(-1)
+        // let tdata = row.insertCell(-1).innerHTML = firstName
+        // row.insertCell(-1).innerHTML = lastName
+        // row.insertCell(-1).innerHTML = randomEmail
+        // row.insertCell(-1).innerHTML = dob
+        // row.insertCell(-1).innerHTML = sex
+        // row.insertCell(-1).innerHTML = designation
+
+        user_list.push({
+          first_name: firstName,
+          last_name: lastName,
+          random_email: randomEmail,
+          dob,
+          sex,
+          designation,
+        });
+      }
+      return { fake_data: user_list };
+    }
+    console.log(fakeUsers());
+
+    for (let value in user_list) {
+      let tr = `<tr><td>${user_list[value].first_name}</td><td>${user_list[value].last_name}</td><td>${user_list[value].random_email}</td><td>${user_list[value].sex}</td><td>${user_list[value].dob}</td><td>${user_list[value].designation}</td></tr>`;
+      document.querySelector("#myTable tbody").innerHTML += tr;
+    }
+  </script>
+</html>
